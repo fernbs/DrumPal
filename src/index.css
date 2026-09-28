@@ -392,8 +392,6 @@ body {
 /* ── Lesson pane ─────────────────────────────────────── */
 
 .lesson-pane {
-  max-width: 680px;
-  margin: 0 auto;
 }
 
 .lesson-header {
