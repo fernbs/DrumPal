@@ -1,0 +1,26 @@
+{
+  "name": "drumpal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "worker:dev": "wrangler dev worker/index.js --local --persist",
+    "worker:deploy": "wrangler deploy worker/index.js",
+    "db:migrate": "wrangler d1 execute drumpal-db --file=db/schema.sql",
+    "db:seed": "node scripts/generateLessons.js && wrangler d1 execute drumpal-db --file=db/seed.sql",
+    "generate": "node scripts/generateLessons.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "hono": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0",
+    "wrangler": "^3.70.0"
+  }
+}

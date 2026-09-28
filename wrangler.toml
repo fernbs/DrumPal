@@ -1,0 +1,9 @@
+name = "drumpal-worker"
+main = "worker/index.js"
+compatibility_date = "2024-09-23"
+account_id = "b5b4fd1615fc03cb75076123542787ff"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "drumpal-db"
+database_id = "PLACEHOLDER_REPLACE_AFTER_D1_CREATE"
