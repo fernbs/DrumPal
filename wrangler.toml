@@ -1,7 +1,10 @@
-name = "drumpal-worker"
+name = "drumpal-app"
 main = "worker/index.js"
 compatibility_date = "2024-09-23"
 account_id = "b5b4fd1615fc03cb75076123542787ff"
+
+[assets]
+directory = "./dist"
 
 [[d1_databases]]
 binding = "DB"
