@@ -1,3 +1,5 @@
+import YouTubePlayer from './YouTubePlayer'
+
 const STEP_LABELS = {
   warmup: 'Warm-Up',
   core: 'Core Lesson',
@@ -35,7 +37,6 @@ function formatStamina(seconds) {
 
 function StepCard({ step, index }) {
   const ytId = extractYoutubeId(step.video_url)
-  const thumb = ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : null
   const isExternalLink = step.video_url && !ytId
 
   return (
@@ -48,16 +49,8 @@ function StepCard({ step, index }) {
         </div>
       </div>
 
-      {thumb && (
-        <div className="step-video-section">
-          <img
-            src={thumb}
-            alt={step.video_title || ''}
-            className="step-thumb-img"
-            loading="lazy"
-          />
-          <div className="step-video-caption">{step.video_title}</div>
-        </div>
+      {ytId && (
+        <YouTubePlayer videoId={ytId} title={step.video_title} />
       )}
 
       {isExternalLink && (

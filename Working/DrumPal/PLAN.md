@@ -25,7 +25,7 @@ This file is the north star for every session. No matter what specific task is i
 ## Current position
 
 ```
-Phase: 2 — Frontend shell
+Phase: 3 — Video player
 Status: Complete (pending commit and push approval)
 Last updated: 2026-09-28
 Phase 0: Complete (commit cda6950)
@@ -34,7 +34,14 @@ Phase 2: Complete — React shell built and builds clean
   Files added: src/index.css, src/components/TopBar.jsx,
                src/components/Sidebar.jsx, src/components/LessonPane.jsx
   App.jsx rewritten with real data fetching from /api/lessons and /api/progress
-  Next: Phase 3 (YouTube IFrame Player API, video embedding with auto-fallback)
+Phase 3: Complete — YouTube IFrame Player API embedded in step cards
+  Files added: src/components/YouTubePlayer.jsx
+  Files changed: src/components/LessonPane.jsx, src/index.css
+  - IFrame API loaded once via module-level singleton (no double script inject)
+  - onError codes 101/150 auto-swap to thumbnail + "Watch on YouTube" overlay
+  - Permanent "Watch on YouTube" link under every embedded player
+  - Non-embeddable steps (Drumeo article, Rudinger channel) get "Open lesson" button
+  Next: Phase 4 (progress tracking UI — Watched/Drilled toggles, streak, bests)
 ```
 
 Update this block at the end of every session.

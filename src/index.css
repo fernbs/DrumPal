@@ -525,6 +525,96 @@ body {
   opacity: 0.88;
 }
 
+/* ── YouTube player ──────────────────────────────────── */
+
+.yt-player-wrapper {
+  margin-bottom: 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.yt-player-ratio {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+
+.yt-player-ratio iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.yt-player-footer {
+  padding: 8px 12px;
+  background: var(--bg);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.yt-watch-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.yt-watch-link:hover {
+  color: var(--accent);
+}
+
+.yt-blocked {
+  margin-bottom: 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.yt-blocked-thumb-wrap {
+  position: relative;
+}
+
+.yt-blocked-thumb {
+  width: 100%;
+  display: block;
+  max-height: 225px;
+  object-fit: cover;
+}
+
+.yt-watch-btn-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.yt-watch-btn-overlay:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.yt-video-caption {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg);
+}
+
 .step-instruction {
   font-size: 14px;
   line-height: 1.7;
