@@ -636,6 +636,126 @@ body {
   font-weight: 700;
 }
 
+/* ── Step detail blocks ──────────────────────────────── */
+
+.step-detail-block {
+  margin-bottom: 14px;
+}
+
+.step-detail-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.step-detail-text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.step-video-note {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.step-video-note .step-detail-text {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.step-builds-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-builds-list li {
+  font-size: 13px;
+  color: var(--text);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.step-builds-list li::before {
+  content: '↗';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 11px;
+  top: 1px;
+}
+
+/* ── How to practise block ───────────────────────────── */
+
+.step-prescription {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.step-prescription .step-detail-label {
+  margin-bottom: 10px;
+}
+
+.step-prescription-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 6px 12px;
+}
+
+.step-prescription-grid dt {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding-top: 2px;
+}
+
+.step-prescription-grid dd {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Tips list ───────────────────────────────────────── */
+
+.step-tips-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.step-tips-list li {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.55;
+}
+
+.step-tips-list li::before {
+  content: '•';
+  position: absolute;
+  left: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  top: -1px;
+}
+
 /* ── Next lesson button ──────────────────────────────── */
 
 .lesson-footer {

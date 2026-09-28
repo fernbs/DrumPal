@@ -1,4 +1,5 @@
 import YouTubePlayer from './YouTubePlayer'
+import { getStepDetails } from '../data/stepDetails.js'
 
 const STEP_LABELS = {
   warmup: 'Warm-Up',
@@ -35,9 +36,10 @@ function formatStamina(seconds) {
   return s > 0 ? `${m} min ${s} sec` : `${m} min`
 }
 
-function StepCard({ step, index }) {
+function StepCard({ step, index, skillKey, week }) {
   const ytId = extractYoutubeId(step.video_url)
   const isExternalLink = step.video_url && !ytId
+  const details = getStepDetails(step, skillKey, week)
 
   return (
     <div className="step-card">
@@ -64,7 +66,69 @@ function StepCard({ step, index }) {
         </a>
       )}
 
+      {details?.why && (
+        <div className="step-detail-block">
+          <div className="step-detail-label">Why this exercise</div>
+          <p className="step-detail-text">{details.why}</p>
+        </div>
+      )}
+
+      {details?.builds?.length > 0 && (
+        <div className="step-detail-block">
+          <div className="step-detail-label">What it builds</div>
+          <ul className="step-builds-list">
+            {details.builds.map((b, i) => (
+              <li key={i}>{b}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {details?.videoNote && (
+        <div className="step-detail-block step-video-note">
+          <div className="step-detail-label">About this video</div>
+          <p className="step-detail-text">{details.videoNote}</p>
+        </div>
+      )}
+
       <p className="step-instruction">{step.instruction}</p>
+
+      {details?.prescription && (
+        <div className="step-prescription">
+          <div className="step-detail-label">How to practise</div>
+          <dl className="step-prescription-grid">
+            {details.prescription.metronome && (
+              <>
+                <dt>Metronome</dt>
+                <dd>{details.prescription.metronome}</dd>
+              </>
+            )}
+            {details.prescription.sets && (
+              <>
+                <dt>Sets</dt>
+                <dd>{details.prescription.sets}</dd>
+              </>
+            )}
+            {details.prescription.method && (
+              <>
+                <dt>Method</dt>
+                <dd>{details.prescription.method}</dd>
+              </>
+            )}
+          </dl>
+        </div>
+      )}
+
+      {details?.tips?.length > 0 && (
+        <div className="step-detail-block">
+          <div className="step-detail-label">Tips</div>
+          <ul className="step-tips-list">
+            {details.tips.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {step.bpm_target && (
         <div className="step-target">
@@ -104,7 +168,7 @@ export default function LessonPane({ lesson, progressSet, lessons, onSelectLesso
 
       <div className="step-cards">
         {lesson.steps.map((step, i) => (
-          <StepCard key={step.id} step={step} index={i} />
+          <StepCard key={step.id} step={step} index={i} skillKey={lesson.skill_focus} week={lesson.week} />
         ))}
       </div>
 
