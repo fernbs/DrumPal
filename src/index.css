@@ -1046,6 +1046,22 @@ body {
     transform: translateX(0);
   }
 
+  /* Larger touch targets */
+  .module-header {
+    padding: 14px 14px 12px;
+  }
+
+  .lesson-row {
+    padding: 11px 14px 11px 11px;
+    min-height: 44px;
+  }
+
+  .step-toggle {
+    padding: 12px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+
   .main-pane {
     padding: 24px 18px;
   }
@@ -1072,5 +1088,72 @@ body {
 
   .topbar-streak-count {
     font-size: 13px;
+  }
+}
+
+/* ── Phone ───────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .main-pane {
+    padding: 20px 14px;
+  }
+
+  .lesson-title {
+    font-size: 22px;
+    letter-spacing: -0.3px;
+  }
+
+  .lesson-header {
+    margin-bottom: 20px;
+  }
+
+  .step-card {
+    padding: 16px;
+  }
+
+  .step-card-header {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .step-cards {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .bpm-logger {
+    padding: 16px;
+  }
+
+  .bpm-logger-form {
+    flex-wrap: nowrap;
+  }
+
+  .bpm-input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .bpm-log-btn {
+    flex-shrink: 0;
+  }
+
+  .step-prescription-grid {
+    grid-template-columns: 60px 1fr;
+    gap: 5px 10px;
+  }
+
+  .lesson-footer {
+    padding: 6px 0 24px;
+  }
+
+  .next-lesson-btn {
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  .consolidation-banner {
+    padding: 14px 16px;
   }
 }
