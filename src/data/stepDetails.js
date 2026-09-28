@@ -61,7 +61,7 @@ const CONTENT = {
       'Grip check: hold the stick the way you would a pencil, not like you are braking a bike'
     ],
     readyWhen:
-      'Your weaker hand sounds as even as your dominant at the target BPM, with no grip creep or tension building in the forearms after 3 minutes.'
+      'Your weaker hand feels as controlled as your dominant — same grip pressure, same rebound, no extra effort needed to keep up — and your forearms stay relaxed through the full 3 minutes.'
   },
 
   stamina: {
@@ -82,11 +82,11 @@ const CONTENT = {
     },
     tips: [
       "If you can't hold a conversation while playing, you're too tense — relax the grip",
-      'Focus on sound consistency, not just time. Loud-quiet-loud usually means an inconsistent grip',
+      'Focus on grip consistency, not just duration. If the sticks start feeling heavier in one hand, the grip is tightening — consciously release it',
       'The first 90 seconds are always harder than the rest'
     ],
     readyWhen:
-      'You can hold the groove for the full target duration without stopping, and the sound stays consistent from the first bar to the last.'
+      'You can hold the groove for the full target duration without stopping, and the physical effort stays consistent — same grip pressure, same rebound feel, same tempo — from the first bar to the last.'
   },
 
   subdivisionCounting: {
@@ -125,10 +125,10 @@ const CONTENT = {
     tips: [
       'At high tempos it should be wrists, not arms. If you feel the shoulders working, slow down',
       'Relax the grip between strokes, not just before you start. Tension accumulates mid-set',
-      "Record 30 seconds of yourself — the uneven hand is invisible from the player's perspective"
+      "Record 30 seconds via your module's MIDI out or a phone on the desk — hand timing drift is invisible from the player's seat but obvious on playback"
     ],
     readyWhen:
-      'Your weak hand sounds even with your dominant at the target BPM across a full 2-minute set, with no audible rushing or dragging on either side.'
+      'Your weak hand feels as controlled and effortless as your dominant at the target BPM across a full 2-minute set — no timing drift, no extra tension, no sense that one side is working harder than the other.'
   },
 
   singleKickPlacement: {
