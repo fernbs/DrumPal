@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -5,19 +7,20 @@
 }
 
 :root {
-  --bg: #0f1117;
-  --surface: #16192a;
-  --surface-hover: #1e2238;
-  --border: #262a3e;
-  --text: #e2e4f0;
-  --text-muted: #636880;
-  --accent: #5b8dee;
-  --accent-dim: rgba(91, 141, 238, 0.15);
-  --accent-border: rgba(91, 141, 238, 0.35);
+  --bg: #000000;
+  --surface: #111111;
+  --surface-hover: #1c1c1c;
+  --border: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --text-muted: #888888;
+  --accent: #d4a843;
+  --accent-dim: rgba(212, 168, 67, 0.12);
+  --accent-border: rgba(212, 168, 67, 0.3);
   --success: #3ecf7a;
   --sidebar-w: 280px;
   --topbar-h: 56px;
-  --radius: 8px;
+  --radius: 4px;
+  --font-serif: 'Playfair Display', Georgia, serif;
 }
 
 html, body {
@@ -53,7 +56,7 @@ body {
 
 .topbar {
   height: var(--topbar-h);
-  background: var(--surface);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -64,10 +67,11 @@ body {
 }
 
 .topbar-brand {
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.6px;
-  color: var(--accent);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--text);
   flex: 1;
 }
 
@@ -116,7 +120,7 @@ body {
 
 .sidebar {
   width: var(--sidebar-w);
-  background: var(--surface);
+  background: var(--bg);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -428,11 +432,12 @@ body {
 }
 
 .lesson-title {
-  font-size: 26px;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
   color: var(--text);
   line-height: 1.2;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 /* ── Step cards ──────────────────────────────────────── */
@@ -1046,7 +1051,7 @@ body {
   }
 
   .lesson-title {
-    font-size: 22px;
+    font-size: 26px;
   }
 
   .step-prescription-grid {
