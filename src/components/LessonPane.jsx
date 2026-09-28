@@ -354,13 +354,31 @@ export default function LessonPane({ lesson, progressSet, lessons, onSelectLesso
 
       <BpmLogger key={lesson.id} lesson={lesson} bests={bests} onLogBest={onLogBest} />
 
-      {nextLesson && (
-        <div className="lesson-footer">
+      <div className="lesson-footer">
+        {nextLesson ? (
           <button className="next-lesson-btn" onClick={handleMarkComplete}>
             Mark complete &amp; continue →
           </button>
-        </div>
-      )}
+        ) : (
+          <>
+            <button
+              className="next-lesson-btn next-lesson-btn-final"
+              onClick={() => {
+                for (const step of lesson.steps) {
+                  if (!progressSet.has(`${step.id}:drill`)) {
+                    onToggleProgress(step.id, 'drill', true)
+                  }
+                }
+              }}
+            >
+              Mark complete — week 52 done
+            </button>
+            <p className="course-complete-msg">
+              52 weeks. 260 lessons. That's the programme.
+            </p>
+          </>
+        )}
+      </div>
     </div>
   )
 }

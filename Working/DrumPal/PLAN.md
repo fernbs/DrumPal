@@ -25,23 +25,27 @@ This file is the north star for every session. No matter what specific task is i
 ## Current position
 
 ```
-Phase: 3 — Video player
-Status: Complete (pending commit and push approval)
+Phase: 6 — QA and polish (in progress)
 Last updated: 2026-09-28
 Phase 0: Complete (commit cda6950)
 Phase 1: Complete (commit 6ce3198)
-Phase 2: Complete — React shell built and builds clean
-  Files added: src/index.css, src/components/TopBar.jsx,
-               src/components/Sidebar.jsx, src/components/LessonPane.jsx
-  App.jsx rewritten with real data fetching from /api/lessons and /api/progress
-Phase 3: Complete — YouTube IFrame Player API embedded in step cards
-  Files added: src/components/YouTubePlayer.jsx
-  Files changed: src/components/LessonPane.jsx, src/index.css
-  - IFrame API loaded once via module-level singleton (no double script inject)
-  - onError codes 101/150 auto-swap to thumbnail + "Watch on YouTube" overlay
-  - Permanent "Watch on YouTube" link under every embedded player
-  - Non-embeddable steps (Drumeo article, Rudinger channel) get "Open lesson" button
-  Next: Phase 4 (progress tracking UI — Watched/Drilled toggles, streak, bests)
+Phase 2: Complete (commit 70a5d5f)
+Phase 3: Complete (commit 7ac97fb) — YouTube IFrame API, rich step content
+Phase 4: Complete (commit f1b6d42) — Watched/Drilled toggles, streak, logger,
+  consolidation banner, optimistic progress writes to D1
+Phase 5: Complete (pre-existing) — live at https://drumpal-app.lastonteridas.workers.dev,
+  auto-deploy from main via Cloudflare CI/CD
+Phase 6: In progress
+  Done:
+    - Last lesson completion state (green button + message on lesson 260)
+    - Responsive CSS polish for Phase 4 elements on narrow screens
+    - URL checker script written at scripts/checkUrls.js
+      (run outside corporate network: node scripts/checkUrls.js)
+  Remaining:
+    - Run URL check from non-proxy network, replace any dead videos
+    - Visual test on iPad portrait and landscape
+    - Streak timezone edge case: currently uses UTC dates — acceptable for
+      single-user tool but could show wrong day near midnight in CET/CEST
 ```
 
 Update this block at the end of every session.

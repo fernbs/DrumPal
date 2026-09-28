@@ -1001,6 +1001,24 @@ body {
   opacity: 0.88;
 }
 
+/* ── Course complete (last lesson) ──────────────────── */
+
+.next-lesson-btn-final {
+  background: var(--success);
+}
+
+.next-lesson-btn-final:hover {
+  opacity: 0.88;
+}
+
+.course-complete-msg {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 860px) {
@@ -1029,5 +1047,25 @@ body {
 
   .lesson-title {
     font-size: 22px;
+  }
+
+  .step-prescription-grid {
+    grid-template-columns: 70px 1fr;
+  }
+
+  .bpm-logger-form {
+    gap: 8px;
+  }
+
+  .bpm-input {
+    width: 80px;
+  }
+
+  .topbar-streak {
+    padding: 3px 8px;
+  }
+
+  .topbar-streak-count {
+    font-size: 13px;
   }
 }
