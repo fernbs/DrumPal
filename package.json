@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "worker:dev": "wrangler dev worker/index.js --local --persist",
-    "worker:deploy": "wrangler deploy worker/index.js",
-    "db:migrate": "wrangler d1 execute drumpal-db --file=db/schema.sql",
-    "db:seed": "node scripts/generateLessons.js && wrangler d1 execute drumpal-db --file=db/seed.sql",
+    "dev": "node ./node_modules/vite/bin/vite.js",
+    "build": "node ./node_modules/vite/bin/vite.js build",
+    "preview": "node ./node_modules/vite/bin/vite.js preview",
+    "worker:dev": "node ./node_modules/wrangler/bin/wrangler.js dev worker/index.js",
+    "worker:deploy": "node ./node_modules/wrangler/bin/wrangler.js deploy worker/index.js",
+    "db:migrate": "node ./node_modules/wrangler/bin/wrangler.js d1 execute drumpal-db --file=db/schema.sql",
+    "db:migrate:local": "node ./node_modules/wrangler/bin/wrangler.js d1 execute drumpal-db --local --file=db/schema.sql",
+    "db:seed": "node scripts/generateLessons.js && node ./node_modules/wrangler/bin/wrangler.js d1 execute drumpal-db --file=db/seed.sql",
+    "db:seed:local": "node scripts/generateLessons.js && node ./node_modules/wrangler/bin/wrangler.js d1 execute drumpal-db --local --file=db/seed.sql",
     "generate": "node scripts/generateLessons.js"
   },
   "dependencies": {

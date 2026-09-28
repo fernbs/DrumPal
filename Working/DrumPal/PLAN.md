@@ -25,9 +25,16 @@ This file is the north star for every session. No matter what specific task is i
 ## Current position
 
 ```
-Phase: 0 — Foundation
-Status: In progress
+Phase: 2 — Frontend shell
+Status: Complete (pending commit and push approval)
 Last updated: 2026-09-28
+Phase 0: Complete (commit cda6950)
+Phase 1: Complete (commit 6ce3198)
+Phase 2: Complete — React shell built and builds clean
+  Files added: src/index.css, src/components/TopBar.jsx,
+               src/components/Sidebar.jsx, src/components/LessonPane.jsx
+  App.jsx rewritten with real data fetching from /api/lessons and /api/progress
+  Next: Phase 3 (YouTube IFrame Player API, video embedding with auto-fallback)
 ```
 
 Update this block at the end of every session.
@@ -39,18 +46,24 @@ Update this block at the end of every session.
 **Goal:** Working local project, schema defined, lesson generator algorithm designed, repo on GitHub.
 
 **Deliverables:**
-- [ ] Local project folder structure (`src/`, `worker/`, `db/`) initialised with Vite + React + Hono
-- [ ] `package.json` with all dependencies
-- [ ] D1 schema file (`db/schema.sql`) with all tables
-- [ ] Skill-curve definitions file (`src/data/skills.js`) covering all 7 skill tracks
-- [ ] Lesson generator (`scripts/generateLessons.js`) producing 260 lesson objects with varied instruction text
-- [ ] `lessons.json` (generated output, seeded into D1 on deploy)
-- [ ] GitHub repo initialised, initial commit pushed
-- [ ] `wrangler.toml` configured (D1 binding, account ID, project name)
+- [x] Local project folder structure (`src/`, `worker/`, `db/`) initialised with Vite + React + Hono
+- [x] `package.json` with all dependencies
+- [x] D1 schema file (`db/schema.sql`) — 5 tables
+- [x] Skill-curve definitions file (`src/data/skills.js`) — 7 skill tracks
+- [x] Lesson generator (`scripts/generateLessons.js`) — 260 lessons, 676 steps
+- [x] `db/seed.sql` generated (260 lesson INSERTs + 676 step INSERTs)
+- [x] `src/data/videos.js` — 21 videos, real URLs only
+- [x] `src/data/modules.js` — 8 modules across 52 weeks
+- [x] Worker shell (`worker/index.js`) with Hono
+- [x] Frontend shell (`src/main.jsx`, `src/App.jsx`, `index.html`)
+- [x] Git repo initialised, initial commit `cda6950`
+- [x] Remote added: https://github.com/fernbs/DrumPal.git
+- [ ] Push to GitHub (awaiting Fernando's approval)
+- [ ] Replace `wrangler.toml` D1 placeholder after running `wrangler d1 create drumpal-db`
 
 **Done when:** `npm run dev` runs locally, the lesson data file generates cleanly, and the repo is on GitHub with no sensitive credentials committed.
 
-**Session estimate:** 1-2 sessions.
+**Session estimate:** 1-2 sessions. COMPLETE (pending push).
 
 ---
 
@@ -78,14 +91,14 @@ Update this block at the end of every session.
 **Goal:** The full app skeleton renders in a browser with real data from the Worker, no placeholder content.
 
 **Deliverables:**
-- [ ] App layout: sidebar + main pane, side-by-side above 860px, stacked below
-- [ ] Sidebar: module list as collapsible accordions, each with mini progress bar and "X/Y done" count
-- [ ] Sidebar lesson rows: YouTube thumbnail, title, checkmark when complete
-- [ ] Sidebar bottom section: collapsed "Side quests" block for blast beat and double bass content
-- [ ] Top bar: course-wide progress ring + percentage
-- [ ] Routing: clicking a lesson row loads it in the main pane
-- [ ] Hamburger toggle on narrow screens (iPad portrait)
-- [ ] Lesson pane shell: title, module, week, 3 step cards (Warm-Up / Core / Apply It) — no video yet
+- [x] App layout: sidebar + main pane, side-by-side above 860px, stacked below
+- [x] Sidebar: module list as collapsible accordions, each with mini progress bar and "X/Y done" count
+- [x] Sidebar lesson rows: YouTube thumbnail, title, checkmark when complete
+- [x] Sidebar bottom section: collapsed "Side quests" block for blast beat and double bass content
+- [x] Top bar: course-wide progress ring + percentage
+- [x] Routing: clicking a lesson row loads it in the main pane
+- [x] Hamburger toggle on narrow screens (iPad portrait)
+- [x] Lesson pane shell: title, module, week, 3 step cards (Warm-Up / Core / Apply It) — no video yet
 
 **Done when:** App loads, sidebar shows all 52 weeks / 260 lessons pulled from the Worker, clicking a lesson shows the correct lesson in the main pane, layout works on iPad in portrait and landscape.
 
