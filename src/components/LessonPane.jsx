@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import YouTubePlayer from './YouTubePlayer'
 import { getStepDetails } from '../data/stepDetails.js'
 
@@ -24,6 +25,69 @@ const MODULE_NAMES = {
   8: 'Mastery'
 }
 
+const SKILL_LOGGER = {
+  stamina: {
+    label: 'Stamina',
+    prompt: 'How long did you groove continuously today?',
+    inputLabel: 'minutes',
+    unit: 'min',
+    placeholder: '8',
+    step: 0.5,
+    min: 0.5,
+    max: 60
+  },
+  singleStroke: {
+    label: 'Single Stroke Roll',
+    prompt: 'What BPM did you reach cleanly today?',
+    inputLabel: 'BPM',
+    unit: 'bpm',
+    placeholder: '110',
+    step: 1,
+    min: 60,
+    max: 300
+  },
+  singleKickPlacement: {
+    label: 'Single Kick Placement',
+    prompt: 'What BPM did you reach cleanly today?',
+    inputLabel: 'BPM',
+    unit: 'bpm',
+    placeholder: '100',
+    step: 1,
+    min: 60,
+    max: 250
+  },
+  polymeter: {
+    label: 'Polymeter',
+    prompt: 'What BPM did you run the pattern cleanly today?',
+    inputLabel: 'BPM',
+    unit: 'bpm',
+    placeholder: '90',
+    step: 1,
+    min: 60,
+    max: 200
+  },
+  oddTime: {
+    label: 'Odd Time',
+    prompt: 'How many odd-time grooves can you play solid?',
+    inputLabel: 'grooves',
+    unit: 'grooves',
+    placeholder: '3',
+    step: 1,
+    min: 1,
+    max: 50
+  },
+  linearFills: {
+    label: 'Linear Fills',
+    prompt: 'How many variations can you play back-to-back without stopping?',
+    inputLabel: 'variations',
+    unit: 'variations',
+    placeholder: '2',
+    step: 1,
+    min: 1,
+    max: 30
+  }
+}
+
 function extractYoutubeId(url) {
   if (!url) return null
   const m = url.match(/[?&]v=([^&]+)/)
@@ -36,13 +100,16 @@ function formatStamina(seconds) {
   return s > 0 ? `${m} min ${s} sec` : `${m} min`
 }
 
-function StepCard({ step, index, skillKey, week }) {
+function StepCard({ step, index, skillKey, week, isConsolidation, progressSet, onToggleProgress }) {
   const ytId = extractYoutubeId(step.video_url)
   const isExternalLink = step.video_url && !ytId
-  const details = getStepDetails(step, skillKey, week)
+  const details = isConsolidation ? null : getStepDetails(step, skillKey, week)
+
+  const watched = progressSet.has(`${step.id}:watch`)
+  const drilled = progressSet.has(`${step.id}:drill`)
 
   return (
-    <div className="step-card">
+    <div className={`step-card${drilled ? ' step-card-done' : ''}`}>
       <div className="step-card-header">
         <span className="step-number">{index + 1}</span>
         <div>
@@ -141,15 +208,110 @@ function StepCard({ step, index, skillKey, week }) {
           Target: <strong>{formatStamina(step.stamina_target_seconds)} continuous</strong>
         </div>
       )}
+
+      <div className="step-toggles">
+        {step.video_url && (
+          <button
+            className={`step-toggle${watched ? ' step-toggle-watched' : ''}`}
+            onClick={() => onToggleProgress(step.id, 'watch', !watched)}
+          >
+            {watched ? '✓ Watched' : 'Mark watched'}
+          </button>
+        )}
+        <button
+          className={`step-toggle step-toggle-drill-btn${drilled ? ' step-toggle-drilled' : ''}`}
+          onClick={() => onToggleProgress(step.id, 'drill', !drilled)}
+        >
+          {drilled ? '✓ Drilled' : 'Mark drilled'}
+        </button>
+      </div>
     </div>
   )
 }
 
-export default function LessonPane({ lesson, progressSet, lessons, onSelectLesson }) {
+function BpmLogger({ lesson, bests, onLogBest }) {
+  const config = SKILL_LOGGER[lesson.skill_focus]
+  const [val, setVal] = useState('')
+  const [feedback, setFeedback] = useState(null)
+  const [saving, setSaving] = useState(false)
+
+  if (!config) return null
+
+  const currentBest = bests.find(b => b.skill_key === lesson.skill_focus)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const num = parseFloat(val)
+    if (!num || num <= 0) return
+    setSaving(true)
+    const result = await onLogBest(lesson.skill_focus, num, config.unit, lesson.id)
+    setSaving(false)
+    if (result) {
+      setFeedback(result)
+      setVal('')
+    }
+  }
+
+  return (
+    <div className="bpm-logger">
+      <div className="bpm-logger-header">
+        <div className="step-detail-label">{config.label} — Log your session</div>
+        {currentBest && (
+          <div className="bpm-best-pill">
+            Best: <strong>{currentBest.value} {currentBest.unit}</strong>
+          </div>
+        )}
+      </div>
+      <p className="bpm-logger-prompt">{config.prompt}</p>
+      <form className="bpm-logger-form" onSubmit={handleSubmit}>
+        <input
+          type="number"
+          className="bpm-input"
+          value={val}
+          onChange={e => { setVal(e.target.value); setFeedback(null) }}
+          placeholder={config.placeholder}
+          min={config.min}
+          max={config.max}
+          step={config.step}
+        />
+        <span className="bpm-input-unit">{config.inputLabel}</span>
+        <button
+          type="submit"
+          className="bpm-log-btn"
+          disabled={saving || !val}
+        >
+          {saving ? '...' : 'Log it'}
+        </button>
+      </form>
+      {feedback && (
+        <div className={`bpm-feedback${feedback.is_new_best ? ' bpm-feedback-best' : ''}`}>
+          {feedback.is_new_best
+            ? `New personal best: ${feedback.logged} ${config.unit}`
+            : `Logged. Personal best is still ${feedback.best?.value} ${config.unit}.`}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function LessonPane({ lesson, progressSet, lessons, onSelectLesson, onToggleProgress, onLogBest, bests }) {
   const currentIndex = lessons.findIndex(l => l.id === lesson.id)
   const nextLesson = currentIndex >= 0 && currentIndex < lessons.length - 1
     ? lessons[currentIndex + 1]
     : null
+  const isConsolidation = Boolean(lesson.is_consolidation)
+
+  function handleMarkComplete() {
+    for (const step of lesson.steps) {
+      if (!progressSet.has(`${step.id}:drill`)) {
+        onToggleProgress(step.id, 'drill', true)
+      }
+    }
+    if (nextLesson) {
+      onSelectLesson(nextLesson.id)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
     <div className="lesson-pane">
@@ -159,28 +321,42 @@ export default function LessonPane({ lesson, progressSet, lessons, onSelectLesso
             Module {lesson.module} · {MODULE_NAMES[lesson.module] || ''}
           </span>
           <span className="lesson-week-tag">Week {lesson.week}</span>
-          {Boolean(lesson.is_consolidation) && (
+          {isConsolidation && (
             <span className="consolidation-tag">Consolidation</span>
           )}
         </div>
         <h1 className="lesson-title">{lesson.title}</h1>
       </div>
 
+      {isConsolidation && (
+        <div className="consolidation-banner">
+          <div className="consolidation-banner-label">No new skill today</div>
+          <p className="consolidation-banner-text">
+            Go back to this week's hardest drill and play it at a tempo you genuinely own. Then record 15-30 seconds. You don't need it perfect — you need to hear where you actually are.
+          </p>
+        </div>
+      )}
+
       <div className="step-cards">
         {lesson.steps.map((step, i) => (
-          <StepCard key={step.id} step={step} index={i} skillKey={lesson.skill_focus} week={lesson.week} />
+          <StepCard
+            key={step.id}
+            step={step}
+            index={i}
+            skillKey={lesson.skill_focus}
+            week={lesson.week}
+            isConsolidation={isConsolidation}
+            progressSet={progressSet}
+            onToggleProgress={onToggleProgress}
+          />
         ))}
       </div>
 
+      <BpmLogger key={lesson.id} lesson={lesson} bests={bests} onLogBest={onLogBest} />
+
       {nextLesson && (
         <div className="lesson-footer">
-          <button
-            className="next-lesson-btn"
-            onClick={() => {
-              onSelectLesson(nextLesson.id)
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-          >
+          <button className="next-lesson-btn" onClick={handleMarkComplete}>
             Mark complete &amp; continue →
           </button>
         </div>

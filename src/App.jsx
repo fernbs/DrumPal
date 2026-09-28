@@ -8,6 +8,8 @@ import './index.css'
 export default function App() {
   const [lessons, setLessons] = useState([])
   const [progress, setProgress] = useState([])
+  const [bests, setBests] = useState([])
+  const [streak, setStreak] = useState(0)
   const [selectedId, setSelectedId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -15,19 +17,17 @@ export default function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/lessons').then(r => {
-        if (!r.ok) throw new Error(`/api/lessons ${r.status}`)
-        return r.json()
-      }),
-      fetch('/api/progress').then(r => {
-        if (!r.ok) throw new Error(`/api/progress ${r.status}`)
-        return r.json()
-      })
+      fetch('/api/lessons').then(r => { if (!r.ok) throw new Error(`/api/lessons ${r.status}`); return r.json() }),
+      fetch('/api/progress').then(r => { if (!r.ok) throw new Error(`/api/progress ${r.status}`); return r.json() }),
+      fetch('/api/bests').then(r => r.ok ? r.json() : []),
+      fetch('/api/streak').then(r => r.ok ? r.json() : { streak: 0 }),
     ])
-      .then(([ls, pr]) => {
+      .then(([ls, pr, bs, sk]) => {
         const lessonArr = Array.isArray(ls) ? ls : []
         setLessons(lessonArr)
         setProgress(Array.isArray(pr) ? pr : [])
+        setBests(Array.isArray(bs) ? bs : [])
+        setStreak(sk?.streak || 0)
         if (lessonArr.length > 0) setSelectedId(lessonArr[0].id)
         setLoading(false)
       })
@@ -48,6 +48,51 @@ export default function App() {
   const isLessonComplete = (lesson) =>
     lesson.steps.length > 0 &&
     lesson.steps.every(step => progressSet.has(`${step.id}:drill`))
+
+  async function handleToggleProgress(stepId, type, done) {
+    setProgress(prev => {
+      const idx = prev.findIndex(p => p.step_id === stepId && p.type === type)
+      if (idx >= 0) {
+        const next = [...prev]
+        next[idx] = { ...next[idx], done: done ? 1 : 0 }
+        return next
+      }
+      return [...prev, { step_id: stepId, type, done: done ? 1 : 0 }]
+    })
+    try {
+      await fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step_id: stepId, type, done })
+      })
+      const res = await fetch('/api/streak')
+      if (res.ok) {
+        const data = await res.json()
+        setStreak(data.streak || 0)
+      }
+    } catch (e) {
+      console.error('Progress save failed:', e)
+    }
+  }
+
+  async function handleLogBest(skillKey, value, unit, lessonId) {
+    try {
+      const res = await fetch('/api/bests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skill_key: skillKey, value, unit, lesson_id: lessonId })
+      })
+      if (!res.ok) return null
+      const data = await res.json()
+      if (data.best) {
+        setBests(prev => [...prev.filter(b => b.skill_key !== skillKey), data.best])
+      }
+      return data
+    } catch (e) {
+      console.error('Log best failed:', e)
+      return null
+    }
+  }
 
   const moduleGroups = useMemo(() => {
     const groups = {}
@@ -75,6 +120,7 @@ export default function App() {
       <TopBar
         completed={completedCount}
         total={lessons.length}
+        streak={streak}
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(o => !o)}
       />
@@ -88,10 +134,7 @@ export default function App() {
           open={sidebarOpen}
         />
         {sidebarOpen && (
-          <div
-            className="sidebar-overlay"
-            onClick={() => setSidebarOpen(false)}
-          />
+          <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
         )}
         <main className="main-pane">
           {loading && <div className="loading">Loading lessons...</div>}
@@ -110,6 +153,9 @@ export default function App() {
               progressSet={progressSet}
               lessons={lessons}
               onSelectLesson={handleSelectLesson}
+              onToggleProgress={handleToggleProgress}
+              onLogBest={handleLogBest}
+              bests={bests}
             />
           )}
           {!loading && !error && !selectedLesson && (

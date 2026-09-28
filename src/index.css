@@ -525,6 +525,35 @@ body {
   opacity: 0.88;
 }
 
+/* ── Streak ──────────────────────────────────────────── */
+
+.topbar-streak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  margin-right: 4px;
+  padding: 4px 10px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+}
+
+.topbar-streak-count {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.topbar-streak-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  opacity: 0.75;
+}
+
 /* ── YouTube player ──────────────────────────────────── */
 
 .yt-player-wrapper {
@@ -634,6 +663,198 @@ body {
 .step-target strong {
   color: var(--text);
   font-weight: 700;
+}
+
+/* ── Consolidation banner ────────────────────────────── */
+
+.consolidation-banner {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.consolidation-banner-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.consolidation-banner-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* ── Step done state ─────────────────────────────────── */
+
+.step-card-done {
+  border-color: rgba(62, 207, 122, 0.25);
+}
+
+/* ── Step toggles ────────────────────────────────────── */
+
+.step-toggles {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.step-toggle {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.step-toggle:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.step-toggle-watched {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.step-toggle-drill-btn {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.step-toggle-drilled {
+  background: rgba(62, 207, 122, 0.12);
+  border-color: rgba(62, 207, 122, 0.35);
+  color: var(--success);
+}
+
+/* ── BPM / stamina logger ────────────────────────────── */
+
+.bpm-logger {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.bpm-logger-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bpm-best-pill {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.bpm-best-pill strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.bpm-logger-prompt {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.bpm-logger-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bpm-input {
+  width: 90px;
+  padding: 9px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.bpm-input::-webkit-inner-spin-button,
+.bpm-input::-webkit-outer-spin-button {
+  appearance: none;
+}
+
+.bpm-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.bpm-input-unit {
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.bpm-log-btn {
+  padding: 9px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.bpm-log-btn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.bpm-log-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.bpm-feedback {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.bpm-feedback-best {
+  color: var(--success);
+  border-color: rgba(62, 207, 122, 0.35);
+  background: rgba(62, 207, 122, 0.08);
+  font-weight: 600;
 }
 
 /* ── Step detail blocks ──────────────────────────────── */

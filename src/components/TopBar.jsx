@@ -1,4 +1,4 @@
-export default function TopBar({ completed, total, sidebarOpen, onToggleSidebar }) {
+export default function TopBar({ completed, total, streak, sidebarOpen, onToggleSidebar }) {
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0
   const r = 17
   const circ = 2 * Math.PI * r
@@ -15,6 +15,12 @@ export default function TopBar({ completed, total, sidebarOpen, onToggleSidebar 
       </button>
       <div className="topbar-brand">DrumPal</div>
       <div className="topbar-progress">
+        {streak > 0 && (
+          <div className="topbar-streak">
+            <span className="topbar-streak-count">{streak}</span>
+            <span className="topbar-streak-label">{streak === 1 ? 'day' : 'days'}</span>
+          </div>
+        )}
         <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
           <circle
             cx="20" cy="20" r={r}
