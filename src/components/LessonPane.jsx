@@ -103,6 +103,7 @@ function formatStamina(seconds) {
 function StepCard({ step, index, skillKey, week, isConsolidation, progressSet, onToggleProgress }) {
   const ytId = extractYoutubeId(step.video_url)
   const isExternalLink = step.video_url && !ytId
+  const hasVideo = Boolean(ytId || isExternalLink)
   const details = isConsolidation ? null : getStepDetails(step, skillKey, week)
 
   const watched = progressSet.has(`${step.id}:watch`)
@@ -118,113 +119,120 @@ function StepCard({ step, index, skillKey, week, isConsolidation, progressSet, o
         </div>
       </div>
 
-      {ytId && (
-        <YouTubePlayer videoId={ytId} title={step.video_title} />
-      )}
+      {isConsolidation ? (
+        <>
+          <p className="step-instruction">{step.instruction}</p>
+          <div className="step-phase-action">
+            <button
+              className={`step-toggle step-toggle-drill-btn${drilled ? ' step-toggle-drilled' : ''}`}
+              onClick={() => onToggleProgress(step.id, 'drill', !drilled)}
+            >
+              {drilled ? '✓ Drilled' : 'Mark drilled'}
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Phase 1: Watch */}
+          {hasVideo && (
+            <div className="step-phase">
+              <div className="step-phase-heading">
+                <span className="step-phase-num">1</span>
+                <span className="step-phase-title">Watch</span>
+              </div>
+              {ytId && <YouTubePlayer videoId={ytId} title={step.video_title} />}
+              {isExternalLink && (
+                <a
+                  href={step.video_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="step-open-btn"
+                >
+                  {step.video_title ? `Open: ${step.video_title}` : 'Open Lesson'}
+                </a>
+              )}
+              {details?.videoNote && (
+                <div className="step-video-note">
+                  <p className="step-detail-text">{details.videoNote}</p>
+                </div>
+              )}
+              <div className="step-phase-action">
+                <button
+                  className={`step-toggle${watched ? ' step-toggle-watched' : ''}`}
+                  onClick={() => onToggleProgress(step.id, 'watch', !watched)}
+                >
+                  {watched ? '✓ Watched' : 'Mark watched'}
+                </button>
+              </div>
+            </div>
+          )}
 
-      {isExternalLink && (
-        <a
-          href={step.video_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="step-open-btn"
-        >
-          {step.video_title ? `Open: ${step.video_title}` : 'Open Lesson'}
-        </a>
-      )}
-
-      {details?.why && (
-        <div className="step-detail-block">
-          <div className="step-detail-label">Why this exercise</div>
-          <p className="step-detail-text">{details.why}</p>
-        </div>
-      )}
-
-      {details?.builds?.length > 0 && (
-        <div className="step-detail-block">
-          <div className="step-detail-label">What it builds</div>
-          <ul className="step-builds-list">
-            {details.builds.map((b, i) => (
-              <li key={i}>{b}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {details?.videoNote && (
-        <div className="step-detail-block step-video-note">
-          <div className="step-detail-label">About this video</div>
-          <p className="step-detail-text">{details.videoNote}</p>
-        </div>
-      )}
-
-      <p className="step-instruction">{step.instruction}</p>
-
-      {details?.prescription && (
-        <div className="step-prescription">
-          <div className="step-detail-label">How to practise</div>
-          <dl className="step-prescription-grid">
-            {details.prescription.metronome && (
-              <>
-                <dt>Metronome</dt>
-                <dd>{details.prescription.metronome}</dd>
-              </>
+          {/* Phase 2: Practice */}
+          <div className="step-phase">
+            <div className="step-phase-heading">
+              <span className="step-phase-num">{hasVideo ? 2 : 1}</span>
+              <span className="step-phase-title">Practice</span>
+            </div>
+            {details?.why && <p className="step-intro">{details.why}</p>}
+            <p className="step-instruction">{step.instruction}</p>
+            {details?.prescription && (
+              <div className="step-prescription">
+                <dl className="step-prescription-grid">
+                  {details.prescription.metronome && (
+                    <><dt>Metronome</dt><dd>{details.prescription.metronome}</dd></>
+                  )}
+                  {details.prescription.sets && (
+                    <><dt>Sets</dt><dd>{details.prescription.sets}</dd></>
+                  )}
+                  {details.prescription.method && (
+                    <><dt>Method</dt><dd>{details.prescription.method}</dd></>
+                  )}
+                  {details.prescription.approxTime && (
+                    <><dt>Approx time</dt><dd>{details.prescription.approxTime}</dd></>
+                  )}
+                </dl>
+              </div>
             )}
-            {details.prescription.sets && (
-              <>
-                <dt>Sets</dt>
-                <dd>{details.prescription.sets}</dd>
-              </>
+            {step.bpm_target && (
+              <div className="step-target">
+                Target: <strong>{step.bpm_target} BPM</strong>
+              </div>
             )}
-            {details.prescription.method && (
-              <>
-                <dt>Method</dt>
-                <dd>{details.prescription.method}</dd>
-              </>
+            {step.stamina_target_seconds && (
+              <div className="step-target">
+                Target: <strong>{formatStamina(step.stamina_target_seconds)} continuous</strong>
+              </div>
             )}
-          </dl>
-        </div>
-      )}
+            {details?.tips?.length > 0 && (
+              <div className="step-detail-block">
+                <div className="step-detail-label">Tips</div>
+                <ul className="step-tips-list">
+                  {details.tips.map((t, i) => <li key={i}>{t}</li>)}
+                </ul>
+              </div>
+            )}
+          </div>
 
-      {details?.tips?.length > 0 && (
-        <div className="step-detail-block">
-          <div className="step-detail-label">Tips</div>
-          <ul className="step-tips-list">
-            {details.tips.map((t, i) => (
-              <li key={i}>{t}</li>
-            ))}
-          </ul>
-        </div>
+          {/* Phase 3: Ready to move on */}
+          <div className="step-phase step-phase-ready">
+            <div className="step-phase-heading">
+              <span className="step-phase-num">{hasVideo ? 3 : 2}</span>
+              <span className="step-phase-title">You're ready when</span>
+            </div>
+            <p className="step-ready-text">
+              {details?.readyWhen || 'You can play this section comfortably and consistently.'}
+            </p>
+            <div className="step-phase-action">
+              <button
+                className={`step-toggle step-toggle-drill-btn${drilled ? ' step-toggle-drilled' : ''}`}
+                onClick={() => onToggleProgress(step.id, 'drill', !drilled)}
+              >
+                {drilled ? '✓ Ready — drilled' : 'Mark as drilled'}
+              </button>
+            </div>
+          </div>
+        </>
       )}
-
-      {step.bpm_target && (
-        <div className="step-target">
-          Target: <strong>{step.bpm_target} BPM</strong>
-        </div>
-      )}
-
-      {step.stamina_target_seconds && (
-        <div className="step-target">
-          Target: <strong>{formatStamina(step.stamina_target_seconds)} continuous</strong>
-        </div>
-      )}
-
-      <div className="step-toggles">
-        {step.video_url && (
-          <button
-            className={`step-toggle${watched ? ' step-toggle-watched' : ''}`}
-            onClick={() => onToggleProgress(step.id, 'watch', !watched)}
-          >
-            {watched ? '✓ Watched' : 'Mark watched'}
-          </button>
-        )}
-        <button
-          className={`step-toggle step-toggle-drill-btn${drilled ? ' step-toggle-drilled' : ''}`}
-          onClick={() => onToggleProgress(step.id, 'drill', !drilled)}
-        >
-          {drilled ? '✓ Drilled' : 'Mark drilled'}
-        </button>
-      </div>
     </div>
   )
 }

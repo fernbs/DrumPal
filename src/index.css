@@ -980,6 +980,83 @@ body {
   top: -1px;
 }
 
+/* ── Step phases ─────────────────────────────────────── */
+
+.step-phase {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.step-phase-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.step-phase-num {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-phase-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.step-phase-action {
+  margin-top: 14px;
+}
+
+.step-phase-action .step-toggle {
+  width: 100%;
+  min-height: 44px;
+}
+
+.step-intro {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.step-phase-ready {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 22px;
+  border-top: none;
+}
+
+.step-phase-ready .step-phase-heading {
+  margin-bottom: 10px;
+}
+
+.step-phase-ready .step-phase-title {
+  color: var(--accent);
+}
+
+.step-ready-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
 /* ── Next lesson button ──────────────────────────────── */
 
 .lesson-footer {
